@@ -1,5 +1,7 @@
 /*
-ġ�� 1�ʸ��� ���� ��츦 ����ؼ� ó���� ġ��� �̸� �����س�����
+치즈 1초만에 녹을 경우를 대비해서 처음에 치즈값들 미리 저장해놔야함
+q2636은 접촉면 1면이상일경우녹음 
+q2638은 2면이상일경우녹음
 */
 #include <iostream>
 #include <deque>
@@ -24,7 +26,7 @@ int main()
 				last_cheese++;
 		}
 	}
-	cheese.push_back({ 1,1 });	//�����ڸ��� ġ��x
+	cheese.push_back({ 1,1 });	//가장자리는 치즈x
 	maps[1][1] = 2;
 	while (!cheese.empty())
 	{
