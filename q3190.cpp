@@ -1,112 +1,77 @@
 #include <iostream>
-#include <cstring>
-#include <string>
 #include <deque>
-#include <vector>
 using namespace std;
 
-int board[105][105];
-int order[105][2];
-int N, K, L;
-int result = 0;
-deque<pair<int,int>> body;
 int main()
 {
-	memset(board, 0, sizeof(board));
-	memset(order, 0, sizeof(order));
-	int x=1, y = 1;
-	int cal_dir=0;	//방향
-	int cal_count=1;
+	int maps[101][101] = { 0 };
+	int X[101] = { 0 };				//방향변환 정보 숫자
+	char C[101] = { 0 };	//방향변환 정보 문자 L = 왼쪽 D = 오른쪽
+	int N = 0, K = 0, L = 0;//N= 보드 크기, K = 사과 개수, L = 방향 변환 개수
+	int sec = 0;
+	deque <pair <int, int>> snake;
 
-	cin >> N >> K; 
-
-	for (int j = 0; j <= N+1; j++)
-	{
-		
-		board[0][j] = 10;
-		board[N+1][j] = 10;
-		board[j][0] = 10;
-		board[j][N+1] = 10;
-	}
-
-
+	cin >> N >> K;
+	snake.push_back({ 1,1 });	//처음 시작할 때
 	for (int i = 1; i <= K; i++)
 	{
-		cin >> x >> y;
-		board[x][y] = 1;
+		int a, b = 0;
+		cin >> a >> b;
+		maps[a][b] = 2;	//사과가 있을 경우 2
 	}
-	
+
 	cin >> L;
-	
 	for (int i = 1; i <= L; i++)
-	{
-		string dir;
-		cin >> order[i][0] >> dir;
-		if (dir[0] == 'D')	//오른쪽일때 1
-			order[i][1] = 1;
+		cin >> X[i] >> C[i];
 
-		else //왼쪽일때 0
-			order[i][1] = 0;
-	}
+	int x = 1, y = 1, dir = 0, cnt = 1;
 
-	x = 1, y = 1;
-	body.push_front({ 1,1 });
-	while (++result)
+	while (++sec)
 	{
-		if (cal_dir == 0)	//동쪽
+		
+		if (dir == 0)			//동
 			y++;
-
-		else if (cal_dir == 1) // 남쪽
+		else if (dir == 1)		//남
 			x++;
-
-		else if (cal_dir == 2) //서쪽
+		else if (dir == 2)		//서
 			y--;
-
-		else if (cal_dir == 3)	//북쪽
+		else if (dir == 3)		//북
 			x--;
-		
-		if (board[x][y] == 10  )	//밖에있을때
-			break;
-		int dead = 0;
-		for (int i = 0; i < body.size(); i++)
-		{
-			if (body[i].first == x && body[i].second == y)
-			{	
-				dead++;
-				break;
-			}
-		}
-		if (dead == 1)
-			break;
 
-
-		if (board[x][y] == 1)	//사과 있을때
+		if (x< 1 || x> N || y< 1 || y> N)	//바깥으로 나갔을 경우
 		{
-			body.push_front({ x, y });
-			board[x][y] = 0;
+			cout << sec << endl;
+			return 0;
 		}
 
-		else if (board[x][y] == 0)	//사과없을때
+		for (int i = 0; i < snake.size(); i++)		//자기 자신 부딪혔을 경우  
 		{
-			body.push_front({ x,y });
-			body.pop_back();
-		}
-
-		if (order[cal_count][0] == result)
-		{
-			if (order[cal_count][1] == 1) // 오른쪽
-				cal_dir = (cal_dir + 1) % 4;
-
-			else
+			if (snake[i].first == x && snake[i].second == y)
 			{
-				cal_dir = (cal_dir + 3) % 4;
+				cout << sec << endl;
+				return 0;
 			}
-
-			cal_count++;
 		}
-		
-	}
-	cout << result; 
 
+		if (maps[x][y] != 2)	//사과가 없을 경우
+			snake.pop_back();	//꼬리 지워짐
+
+		if (maps[x][y] == 2)	//사과 있을 경우
+			maps[x][y] = 0;
+
+		snake.push_front({ x,y });
+
+		if (X[cnt] == sec)			//명령 초만큼 이동했을 경우
+		{
+			if (C[cnt] == 'D')	//오른쪽일 경우 
+				dir = (dir + 1) % 4;
+			else if (C[cnt] == 'L')
+				dir = (dir + 3) % 4;
+			cnt++;
+		}
+
+	}
+
+	cout << sec << endl;
 	return 0;
 }
