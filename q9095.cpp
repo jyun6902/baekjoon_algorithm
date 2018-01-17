@@ -1,32 +1,30 @@
 #include <iostream>
 using namespace std;
-//d[i]=d[i-1]+d[i-2]+d[i-3]
-int arr[12] = {0,};
-int d[12]={0,};
-int cal(int N)
-{
-		d[1]=1;
-		d[2]=2;
-		d[3] =4;
-	if ( d[N] > 0)
-		return d[N];
-	d[N] = cal(N-1)+cal(N-2)+cal(N-3);
-	return d[N];
-}
 
+int go(int cnt, int sum, int goal)
+{
+	if (sum > 10 || sum > goal)
+		return 0;
+
+	if (goal == sum)
+		return 1;
+	int now = 0;
+	for (int i = 1; i <= 3; i++)
+	{
+		now += go(cnt + 1, sum + i, goal);
+	}
+	return now;
+}
 int main()
 {
-	int N = 0,T=0;
+	int T = 0;
 	cin >> T;
-
-	for ( int i = 0 ; i < T; i ++ )
+	for (int i = 1; i <= T; i++)
 	{
-		cin >>arr[i];
+		int n = 0;
+		cin >> n;
+		cout << go(0, 0, n) << endl;
 	}
 
-	for ( int i = 0 ; i < T; i ++ )
-	{
-		cout <<cal(arr[i])<<endl;
-	}
 	return 0;
 }
