@@ -1,7 +1,6 @@
 #include <iostream>
-#include <deque>
 #include <cstring>
-#include <string>
+
 using namespace std;
 
 int N, M = 0;
@@ -11,6 +10,10 @@ int min_result = 987654321;
 
 void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 {
+
+	if (cnt > 10 || cnt >= min_result)
+		return;
+
 	char maps_copy[11][11];
 	memset(maps_copy, 0, sizeof(maps_copy));
 
@@ -33,17 +36,14 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		}
 	}
 
-	if (cnt > 10 || cnt >= min_result)
-		return;
-
 	if (dir == 1)// µ¿
 	{
 		if (ry > by)
 		{
 			int i = ry;
 			maps_copy[rx][i] = '.';
-			while (maps_copy[rx][i+1] == '.')
-			{ 
+			while (maps_copy[rx][i + 1] == '.')
+			{
 				i++;
 			}
 			ry = i;
@@ -60,7 +60,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 
 			if (j + 1 == i && i + 1 == oy && rx == ox && bx == ox)
 				return;//BRO
-			
+
 			else if (j + 1 == oy && bx == ox)
 				return;//BO
 
@@ -119,7 +119,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 				j--;
 			}
 			by = j;
-			
+
 			maps_copy[bx][j] = 'B';
 
 
@@ -130,7 +130,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 				i--;
 			}
 			ry = i;
-		
+
 			maps_copy[rx][i] = 'R';
 
 
@@ -157,17 +157,17 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 				i--;
 			}
 			ry = i;
-		
+
 			maps_copy[rx][i] = 'R';
 
 			int j = by;
 			maps_copy[bx][j] = '.';
-			while (maps_copy[bx][j - 1] =='.')
+			while (maps_copy[bx][j - 1] == '.')
 			{
 				j--;
 			}
 			by = j;
-			
+
 			maps_copy[bx][j] = 'B';
 
 			if (i + 1 == j && i - 1 == oy && rx == ox && bx == ox)
@@ -191,7 +191,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		{
 			int i = rx;
 			maps_copy[i][ry] = '.';
-			while (maps_copy[i+1][ry] == '.')
+			while (maps_copy[i + 1][ry] == '.')
 			{
 				i++;
 			}
@@ -200,7 +200,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 
 			int j = bx;
 			maps_copy[j][by] = '.';
-			while (maps_copy[j+1][by] == '.')
+			while (maps_copy[j + 1][by] == '.')
 			{
 				j++;
 			}
@@ -226,7 +226,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		{
 			int j = bx;
 			maps_copy[j][by] = '.';
-			while (maps_copy[j+1][by] == '.')
+			while (maps_copy[j + 1][by] == '.')
 			{
 				j++;
 			}
@@ -235,7 +235,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 
 			int i = rx;
 			maps_copy[i][ry] = '.';
-			while (maps_copy[i+1][ry] == '.')
+			while (maps_copy[i + 1][ry] == '.')
 			{
 				i++;
 			}
@@ -264,7 +264,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		{
 			int j = bx;
 			maps_copy[j][by] = '.';
-			while (maps_copy[j-1][by] == '.')
+			while (maps_copy[j - 1][by] == '.')
 			{
 				j--;
 			}
@@ -273,7 +273,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 
 			int i = rx;
 			maps_copy[i][ry] = '.';
-			while (maps_copy[i-1][ry] == '.')
+			while (maps_copy[i - 1][ry] == '.')
 			{
 				i--;
 			}
@@ -298,7 +298,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		{
 			int i = rx;
 			maps_copy[i][ry] = '.';
-			while (maps_copy[i-1][ry] == '.')
+			while (maps_copy[i - 1][ry] == '.')
 			{
 				i--;
 			}
@@ -307,7 +307,7 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 
 			int j = bx;
 			maps_copy[j][by] = '.';
-			while (maps_copy[j-1][by] == '.')
+			while (maps_copy[j - 1][by] == '.')
 			{
 				j--;
 			}
@@ -330,11 +330,17 @@ void cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
 		}
 	}//dir == 4
 
-	//cal(char maps[11][11], int rx, int ry, int bx, int by, int cnt, int dir)
-	cal(maps_copy, rx, ry, bx, by, cnt + 1, 1);
-	cal(maps_copy, rx, ry, bx, by, cnt + 1, 2);
-	cal(maps_copy, rx, ry, bx, by, cnt + 1, 3);
-	cal(maps_copy, rx, ry, bx, by, cnt + 1, 4);
+	if (maps_copy[rx][ry + 1] != '#' || maps_copy[bx][by + 1] != '#')
+		cal(maps_copy, rx, ry, bx, by, cnt + 1, 1);
+
+	if (maps_copy[rx][ry - 1] != '#' || maps_copy[bx][by - 1] != '#')
+		cal(maps_copy, rx, ry, bx, by, cnt + 1, 2);
+
+	if (maps_copy[rx + 1][ry] != '#' || maps_copy[bx + 1][by] != '#')
+		cal(maps_copy, rx, ry, bx, by, cnt + 1, 3);
+
+	if (maps_copy[rx - 1][ry] != '#' || maps_copy[bx - 1][by] != '#')
+		cal(maps_copy, rx, ry, bx, by, cnt + 1, 4);
 }
 
 int main()
@@ -366,8 +372,7 @@ int main()
 			}
 		}
 	}
-	
-	//cal(maps, rx, ry, bx, by, 0, 0);
+
 	cal(maps, rx, ry, bx, by, 1, 1);
 	cal(maps, rx, ry, bx, by, 1, 2);
 	cal(maps, rx, ry, bx, by, 1, 3);
