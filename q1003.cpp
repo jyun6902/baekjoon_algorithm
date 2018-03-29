@@ -4,7 +4,7 @@
 using namespace std;
 
 int dp[41] = {};
-vector <pair<int, int>> v[41];//0, 1 °¹¼ö
+vector <pair<int, int>> v[41];//0, 1 ê°¯ìˆ˜
 int cal(int n)
 {
 	if (n <= 1)
