@@ -1,71 +1,36 @@
 #include <iostream>
+#include <cstdio>
 #include <cstring>
-using namespace std;
 int N = 0;
-int coun[16][2];
-int  max_result = 0;
-
-int check(int result, int day, int ok)
+int max_result = 0;
+int day[16]={};
+int fee[16] = {};
+//배열사이즈 확인!
+void cal(int now, int sum)
 {
-
-	if (  coun[day][0] ==0  && ok == 1)
+	if (now <= N)
 	{
-		return 0;
+		if (max_result < sum)
+			max_result = sum;
 	}
 
-	if (ok ==1)
-	{
-		day = day+ coun[day][0];
-		if (day > N )
-		{
-			if (max_result < result)
-				max_result = result;
+	if (now >= N)
+		return;
 
-			result = 0;
-			return 0;
-		}
-
-		check(result + coun[day][1], day, 1);
-		check(result, day, 0);
-	}
-
-	else if (ok == 0)
-	{
-		day += 1;
-
-		if (day > N)
-		{
-			if (max_result < result)
-				max_result = result;
-
-			result = 0;
-			return 0;
-		}
-		check(result, day, 0);
-		check(result + coun[day][1], day, 1);
-	}
-	
+	cal(now + day[now+1], sum + fee[now+1]);
+	cal(now + 1, sum );
+	return;
 }
 
 int main()
 {
-	cin >> N;
-	memset(coun, 0, sizeof(coun));
-	for (int i = 0; i < N; i++)
-	{
-		cin >> coun[i][0] >> coun[i][1]; //Ti Pi
-		
-		if (coun[i][0] + i > N)
-		{
-			coun[i][0] = 0;
-		}
-		
-	}
+	scanf("%d", &N);
+	memset(day, 0, sizeof(day));
+	memset(fee, 0, sizeof(fee));
+	for (int i = 1; i <= N; i++)
+		scanf("%d %d", &day[i], &fee[i]);
 
-	check(coun[0][1],0,1);	//1일 하는지
-	check(0, 0, 0);	//안하는지
-	
-	cout << max_result;
-
+	cal(0, 0);
+	printf("%d\n", max_result);
 	return 0;
 }
